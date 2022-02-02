@@ -1,0 +1,22 @@
+{
+    "name": "teamprodev/eimzo",
+    "authors": [
+        {
+            "name": "Asadbekinha",
+            "email": "fayzulloevasadbek@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Asadbek\\Eimzo\\EimzoServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Asadbek\\Eimzo\\": "src/"
+        }
+    }
+}
