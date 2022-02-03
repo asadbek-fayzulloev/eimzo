@@ -18,8 +18,8 @@ class EimzoServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 //        $this->loadViewsFrom(__DIR__.'/views', 'todolist');
         $this->publishes([
-            __DIR__.'/../recoures/views' => base_path('resources/views/asadbek/eimzo'),
-            __DIR__.'/../recoures/assets' => base_path('public/assets'),
+            __DIR__ . '/../resources/views' => base_path('resources/views/asadbek/eimzo'),
+            __DIR__ . '/../resources/assets' => base_path('public/assets'),
 
         ]);
     }
