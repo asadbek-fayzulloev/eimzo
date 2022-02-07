@@ -12,7 +12,7 @@ class EimzoService
 
     public function __construct()
     {
-        $this->eimzo_server = env('EIMZO_DSV');
+        $this->eimzo_server = config('eimzo.dsv_server_url');
     }
 
     public function getSigners($pkcs7)
