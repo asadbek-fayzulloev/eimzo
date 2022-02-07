@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Eimzo;
+namespace Asadbek\Eimzo\Services;
 
-use App\Services\CurlRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-use RealRashid\SweetAlert\Facades\Alert;
 
-class Eimzo
+
+class EimzoService
 {
     private $eimzo_server;
 
@@ -85,7 +84,7 @@ class Eimzo
             preg_match("/<return>(.*)<\/return>/Uis", $responseBody, $matches);
 
             if (Arr::get($matches, 0) === '<return></return>') {
-                Alert::error('E-IMZO serverida xatolik!');
+                Log::error('E-IMZO serverida xatolik!');
                 return response()->json([
                     'message' => 'Verification server return no data'
                 ], 400);

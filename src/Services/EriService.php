@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class EriService {
     public function makeParams($data) {
         $fullname_parts = $this->parseFullname($data['eri_fullname']);
+        // #TODO: check table columns
         return [
             'username' => $data['eri_sn'],
             'fullname' => $data['eri_fullname'],
