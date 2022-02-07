@@ -20,7 +20,7 @@ class EimzoServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/asadbek/eimzo'),
             __DIR__ . '/../resources/assets' => base_path('public/assets'),
-
+            __DIR__.'/../config/config.php' => config_path('eimzo.php'),
         ]);
     }
 
