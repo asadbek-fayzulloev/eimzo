@@ -1,7 +1,7 @@
 <?php
 namespace Asadbek\Eimzo\Services\SendInfo;
 
-use App\Services\SendInfo\SendInfoInterface;
+use Asadbek\Eimzo\Services\SendInfo\SendInfoInterface;
 
 class SendInfo {
     public function __construct(SendInfoInterface $sendProvider)

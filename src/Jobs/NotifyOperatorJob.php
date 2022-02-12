@@ -36,15 +36,15 @@ class NotifyOperatorJob implements ShouldQueue
      */
     public function handle()
     {
-//         $telegram = new Telegram($this->message);
-//         try {
-//             $response = new SendInfo($telegram);
-//             if(isset($response->ok) && $response->ok) {
-//                 return true;
-//             }
-//         } catch (\Throwable $th) {
-//             Log::error(sprintf("Error Message: %s, Line: %s, File: %s", $th->getMessage(), $th->getLine(), $th->getFile()));
-//             return false;
-//         }
+         $telegram = new Telegram($this->message);
+         try {
+             $response = new SendInfo($telegram);
+             if(isset($response->ok) && $response->ok) {
+                 return true;
+             }
+         } catch (\Throwable $th) {
+             Log::error(sprintf("Error Message: %s, Line: %s, File: %s", $th->getMessage(), $th->getLine(), $th->getFile()));
+             return false;
+         }
     }
 }

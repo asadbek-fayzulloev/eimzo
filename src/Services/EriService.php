@@ -27,7 +27,7 @@ class EriService {
             'name' => $data['eri_sn'],
             'password' => Hash::make(uniqid()),
             'auth_type' => 'eri',
-            'role_id' => 9,
+            'role_id' => config('eimzo.user.default_role_id'),
             'status' => 1,
             'user_type' => 'Jismoniy shaxs'
         ];
