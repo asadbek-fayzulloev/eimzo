@@ -28,11 +28,9 @@ class EimzoController extends Controller
             }
 
             Log::error(sprintf("ERI error: Message: %s, Line: %s, File: %s", $th->getMessage(), $th->getLine(), $th->getFile()));
-            return redirect()->route('voyager.login')->with('error', $errorMessage);
+            return redirect()->route(config('eimzo.redirect_url.after_login_error'))->with('error', $errorMessage);
         }
 
-        // redirect user on successfully authorization
-        return redirect()->route("voyager.applications.create");
-        // return redirect()->route('voyager.a', auth()->user()->id)->with('status', "Тизимга кирдингиз");
+        return redirect()->route(config('eimzo.redirect_url.after_login_success'));
     }
 }
