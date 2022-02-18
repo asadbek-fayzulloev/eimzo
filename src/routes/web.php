@@ -9,6 +9,6 @@ Route::group([
     'namespace' => 'Asadbek\Eimzo\Http\Controllers'
 ], function () {
     Route::get('login', [EimzoController::class,'index'])->name('showLogin');
-    Route::post('postLogin', [EimzoController::class,'index'])->name('postLogin');
+    Route::post('postLogin', [EimzoController::class,'auth'])->name('postLogin');
 
 });
