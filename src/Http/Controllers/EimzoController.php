@@ -13,6 +13,7 @@ class EimzoController extends Controller
     public function index(){
         return view("asadbek.eimzo.login");
     }
+
     public function auth(EriRequest $request) {
         try {
             $oneAuthService = new EriService();
