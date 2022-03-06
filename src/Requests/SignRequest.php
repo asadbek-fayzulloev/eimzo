@@ -24,7 +24,9 @@ class SignRequest extends FormRequest
     public function rules()
     {
         return [
-            'document' => 'required'
+            'pkcs7' => 'required',
+            'data' => 'nullable'
+
         ];
     }
 }

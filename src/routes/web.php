@@ -12,6 +12,5 @@ Route::group([
     Route::get('login', [EimzoController::class,'index'])->name('showLogin');
     Route::post('postLogin', [EimzoController::class,'auth'])->name('postLogin');
     Route::get('sign', [EimzoSignController::class, 'index'])->name('sign.index');
-    Route::get('sign', [EimzoSignController::class, 'index'])->name('sign.index');
 
 });

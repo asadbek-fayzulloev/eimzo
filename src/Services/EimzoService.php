@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Log;
 class EimzoService
 {
     private $eimzo_server;
+    private CurlRequest $client;
 
     public function __construct()
     {
+        $this->client = new CurlRequest();
+
         $this->eimzo_server = config('eimzo.dsv_server_url');
     }
 
@@ -21,8 +24,8 @@ class EimzoService
         if ($pkcs7 && (!empty($pkcs7))) {
             $xml = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">    <Body><verifyPkcs7 xmlns="http://v1.pkcs7.plugin.server.dsv.eimzo.yt.uz/"><pkcs7B64 xmlns="">' . $pkcs7 . '</pkcs7B64> </verifyPkcs7></Body></Envelope>';
             $url = $this->eimzo_server;
-            $client = new CurlRequest();
-            $responseBody = ($client->request($url, $xml));
+            $this->client = new CurlRequest();
+            $responseBody = ($this->client->request($url, $xml));
             if (!$responseBody) {
                 return false;
             }
@@ -74,10 +77,10 @@ class EimzoService
     function getXML($sign)
     {
         $sign_arr = array();
-        $client = new CurlRequest();
         if (!empty($sign) && Arr::get($sign, 0)) {
             $xml = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"> <Body> <verifyPkcs7 xmlns="http://v1.pkcs7.plugin.server.dsv.eimzo.yt.uz/">  <pkcs7B64 xmlns="">' . $sign[0] . '</pkcs7B64>  </verifyPkcs7></Body></Envelope>';
-            $responseBody = ($client->request($this->eimzo_server, $xml));
+            $responseBody = ($this->client->request($this->eimzo_server, $xml));
+
             if (!$responseBody) {
                 return false;
             }
@@ -134,7 +137,38 @@ class EimzoService
                 }
             }
         }
-
+        return false;
     }
 
+    function joinSigns($old, $new)
+    {
+        if ($old && $new)
+            $xml = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                        <Body>
+                            <join2Pkcs7Attached xmlns="http://v1.pkcs7.plugin.server.dsv.eimzo.yt.uz/">
+                                <pkcs7AttachedB64A xmlns="">' . $old . '</pkcs7AttachedB64A>
+                                <pkcs7AttachedB64B xmlns="">' . $new . '</pkcs7AttachedB64B>
+                            </join2Pkcs7Attached>
+                        </Body>
+                    </Envelope>';
+        $responseBody = ($this->client->request($this->eimzo_server, $xml));
+        if (!$responseBody) {
+            return false;
+        }
+        preg_match("/<return>(.*)<\/return>/Uis", $responseBody, $matches);
+
+        if (Arr::get($matches, 0) === '<return></return>') {
+            Log::error('E-IMZO serverida xatolik! Verification server return no data');
+            return false;
+        }
+        $xml = simplexml_load_string(Arr::get($matches, 0));
+        $answer = json_decode(json_encode((array)$xml), true);
+        $answer = (array)json_decode(Arr::get($answer, 0), true);
+        $answer = json_decode(json_encode((array)$answer), true);
+        $pkcs7B64[] = Arr::get($answer, 'pkcs7B64');
+        $successResponse = Arr::get($answer, 'success');
+        if(!$successResponse)
+            return false;
+        return $pkcs7B64;
+    }
 }
